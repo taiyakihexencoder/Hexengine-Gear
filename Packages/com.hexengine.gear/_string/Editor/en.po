@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "add"
+msgstr "追加"
+
+msgid "cancel"
+msgstr "キャンセル"
+
+msgid "delete"
+msgstr "削除"
+
+msgid "duplicate"
+msgstr "複製"
+
+msgid "export"
+msgstr "エクスポート"
+
+msgid "insert"
+msgstr "挿入"
+
+msgid "move_down"
+msgstr "下へ移動"
+
+msgid "move_up"
+msgstr "上へ移動"
+
+msgid "ok"
+msgstr "Ok"
+
+msgid "Animation.profile"
+msgstr "プロフィール名"
+
+msgid "Animation.base_pose"
+msgstr "基本ポーズ"
+
+msgid "Animation.override_pose"
+msgstr "上書きポーズ"
+
+msgid "Animation.additive_pose"
+msgstr "加算ポーズ"
+
+msgid "Animation.pose_name"
+msgstr "ポーズ名"
+
+msgid "Animation.clip_key"
+msgstr "クリップキー"
+
+msgid "Animation.weight"
+msgstr "ウェイト"
+
+msgid "Animation.speed"
+msgstr "再生速度"
+
+msgid "Animation.is_default_pose"
+msgstr "デフォルト"
+
+msgid "Animation.is_active"
+msgstr "アクティブ"
+
+msgid "Animation.auto"
+msgstr "オート"
+
+msgid "Animation.validation_export_error"
+msgstr "バリデーションエラー"
+
+msgid "Animation.validation_failed_profile_name"
+msgstr "プロフィール名が入力されていません。"
+
+msgid "Animation.validation_failed_empty_pose_name"
+msgstr "ポーズ名が入力されていません。"
+
+msgid "Animation.validation_failed_no_default_pose"
+msgstr "基本ポーズにデフォルトが指定されていません。"
+
+msgid "Animation.validation_duplicated_name"
+msgstr "名前が重複しています。:"
+
+msgid "Animation.validation_duplicated_clip_name"
+msgstr "アニメーションクリップキーが重複しています。:"
+
+msgid "Animation.validation_invalid_name"
+msgstr "これらの名前は使用できません。:"

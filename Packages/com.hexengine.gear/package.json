@@ -1,0 +1,7 @@
+{
+	"name": "com.hexengine.gear",
+	"version": "0.1.0",
+	"displayName": "Hexengine Gear",
+	"description": "Hexengine Gear is utility tool for me or a few risk-takers. We are not responsible for any problems that may arise from the use of this package.",
+	"unity": "6.0"
+}

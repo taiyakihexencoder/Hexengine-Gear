@@ -1,0 +1,18 @@
+{
+    "name": "com.hexengine.gear-editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6af7e97261a4ba3448155671add1a801"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

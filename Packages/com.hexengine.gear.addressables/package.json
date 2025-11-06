@@ -1,0 +1,10 @@
+{
+	"name": "com.hexengine.gear.addressables",
+	"version": "0.1.0",
+	"displayName": "Hexengine Gear Addressables",
+	"description": "Hexengine Gear Addressables is utility tool for me or a few risk-takers. We are not responsible for any problems that may arise from the use of this package.",
+	"unity": "6.0",
+	"dependencies": {
+		"com.unity.addressables": "2.4.6"
+	}
+}
