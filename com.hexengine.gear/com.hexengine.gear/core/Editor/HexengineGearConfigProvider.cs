@@ -8,7 +8,7 @@ using UnityEngine;
 namespace com.hexengine.gear.editor {
 	public sealed class HexengineGearConfigProvider : SettingsProvider {
 		private HexengineGearConfig config;
-		private RuntimeHexencoderGearConfig runtimeConfig;
+		private RuntimeHexengineGearConfig runtimeConfig;
 
 		private int selectedTab = -1;
 		private IHexengineGearConfigComponent currentComponent = null;
@@ -30,7 +30,7 @@ namespace com.hexengine.gear.editor {
 
 		public HexengineGearConfigProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords) {
 			config = ScriptableObjectUtility.GetProjectSingleton<HexengineGearConfig>();
-			runtimeConfig = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexencoderGearConfig>();
+			runtimeConfig = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexengineGearConfig>();
 
 			components = new List<System.Type>();
 			foreach (Assembly assembly in System.AppDomain.CurrentDomain.GetAssemblies()) {

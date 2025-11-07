@@ -17,7 +17,7 @@ namespace com.hexengine.gear {
 		}
 
 		public static void CreateBinaryFile(string path, System.Action<BinaryWriter> function, System.Text.Encoding encoding) {
-			RuntimeHexencoderGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexencoderGearConfig>();
+			RuntimeHexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexengineGearConfig>();
 			string savePath = $"{config.streamingAssetPath}{separator}{path}";
 			CreateStreamingAssetPath(savePath);
 
@@ -36,7 +36,7 @@ namespace com.hexengine.gear {
 #endif
 
 		public static void LoadBinaryFile(string path, System.Action<BinaryReader> function, System.Text.Encoding encoding) {
-			RuntimeHexencoderGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexencoderGearConfig>();
+			RuntimeHexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexengineGearConfig>();
 			string savePath = $"{config.streamingAssetPath}{separator}{path}";
 
 			string absPath = Application.streamingAssetsPath + separator + savePath;

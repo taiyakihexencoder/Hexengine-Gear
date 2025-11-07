@@ -8,6 +8,19 @@ namespace com.hexengine.gear.editor {
 	public static class HexengineProject {
 		private static char separator => Path.DirectorySeparatorChar;
 
+		[InitializeOnLoadMethod]
+		private static void InitializeAssets() {
+			HexengineGearConfig instance = ScriptableObjectUtility.GetProjectSingleton<HexengineGearConfig>();
+			if (instance == null) {
+				instance = ScriptableObject.CreateInstance<HexengineGearConfig>();
+				instance = ScriptableObjectEditorUtility.Create<HexengineGearConfig>(instance.autoGeneratePath);
+			}
+
+			if(!ScriptableObjectUtility.Exists<RuntimeHexengineGearConfig>()) {
+				ScriptableObjectEditorUtility.Create<RuntimeHexengineGearConfig>(instance.autoGeneratePath);
+			}
+		}
+
 		public static void CreateAsset(Object asset, string path) {
 			HexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<HexengineGearConfig>();
 			string savePath = config.autoGeneratePath + separator + path;

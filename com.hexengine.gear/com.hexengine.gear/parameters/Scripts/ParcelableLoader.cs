@@ -8,7 +8,7 @@ namespace com.hexengine.gear.parameters {
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void initialize() {
-			RuntimeHexencoderGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexencoderGearConfig>();
+			RuntimeHexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<RuntimeHexengineGearConfig>();
 			loadPath = Application.streamingAssetsPath +
 				Path.DirectorySeparatorChar + config.streamingAssetPath +
 				Path.DirectorySeparatorChar + "parameters" +

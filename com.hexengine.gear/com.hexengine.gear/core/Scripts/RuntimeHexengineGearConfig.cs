@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 namespace com.hexengine.gear {
-	public partial class RuntimeHexencoderGearConfig : ScriptableObject {
+	public partial class RuntimeHexengineGearConfig : ScriptableObject {
 		[SerializeField]
-		private string _streamingAssetPath = "com.hexencoder.gear";
+		private string _streamingAssetPath = "com.hexengine.gear";
 		public string streamingAssetPath => _streamingAssetPath;
 	}
 }
