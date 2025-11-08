@@ -125,7 +125,8 @@ namespace com.hexengine.gear.addressables {
 			T[] resultList = new T[addressList.Count];
 			for (int i = 0; i < addressList.Count; ++i) {
 				T result = await ops[i].Task;
-				mainContext.Post(_ => loaded(addressList[i], result), null);
+				int index = i;
+				mainContext.Post(_ => loaded(addressList[index], result), null);
 			}
 			mainContext.Post( _ => completed(resultList), null);
 		}
