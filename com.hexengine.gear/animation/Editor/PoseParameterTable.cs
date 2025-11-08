@@ -29,6 +29,7 @@ namespace com.hexengine.gear.animation.editor {
 		[System.Serializable]
 		public class CharacterPoses {
 			public string name;
+			public string resourceName;
   			public int defaultPoseIndex;
 			public BasePoseParameter[] basePoseParameters;
 			public OverridePoseParameter[] overridePoseParameters;

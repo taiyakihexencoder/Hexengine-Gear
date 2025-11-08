@@ -279,7 +279,6 @@ namespace com.hexengine.gear.animation.editor {
 					break;
 				}
 			}
-			Debug.Log(property.propertyPath);
 			
 			if(currentIndex == -1) {
 				return false;
@@ -463,13 +462,15 @@ namespace com.hexengine.gear.animation.editor {
 
 			void ICustomProfileDrawer.DrawPropertyGUI(SerializedProperty property) {
 				SerializedProperty nameProperty = property.FindPropertyRelative("name");
+				SerializedProperty resourceNameProperty = property.FindPropertyRelative("resourceName");
 				SerializedProperty defaultPoseIndexProperty = property.FindPropertyRelative("defaultPoseIndex");
 				SerializedProperty basePoseParametersProperty = property.FindPropertyRelative("basePoseParameters");
 				SerializedProperty overridePoseParametersProperty = property.FindPropertyRelative("overridePoseParameters");
 				SerializedProperty additivePoseParametersProperty = property.FindPropertyRelative("additivePoseParameters");
 
 				nameProperty.stringValue = EditorGUILayout.TextField(new GUIContent(Res.String.Animation.profile), nameProperty.stringValue);
-			
+				resourceNameProperty.stringValue = EditorGUILayout.TextField(new GUIContent(Res.String.Animation.resource_name), resourceNameProperty.stringValue);
+
 				// -- Base Pose -- //
 				using (new EditorGUILayout.HorizontalScope()) {
 					basePoseParametersProperty.isExpanded = EditorGUILayout.Foldout(

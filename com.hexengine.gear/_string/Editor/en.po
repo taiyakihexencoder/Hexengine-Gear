@@ -35,6 +35,9 @@ msgstr "Ok"
 msgid "Animation.profile"
 msgstr "Profile Name"
 
+msgid "Animation.resource_name"
+msgstr "Resource Name"
+
 msgid "Animation.base_pose"
 msgstr "Base Pose"
 

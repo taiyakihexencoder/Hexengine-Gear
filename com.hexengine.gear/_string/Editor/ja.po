@@ -35,6 +35,9 @@ msgstr "Ok"
 msgid "Animation.profile"
 msgstr "プロフィール名"
 
+msgid "Animation.resource_name"
+msgstr "リソース名"
+
 msgid "Animation.base_pose"
 msgstr "基本ポーズ"
 
