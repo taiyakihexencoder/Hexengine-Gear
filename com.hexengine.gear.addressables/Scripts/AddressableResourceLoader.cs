@@ -26,7 +26,7 @@ namespace com.hexengine.gear.addressables {
 		public static bool TryGetValue(string address, out GameObject value) { return loadedModel.TryGetValue(address, out value); }
 		public static bool TryGetValue(string address, out AnimationClip value) { return loadedAnimationClip.TryGetValue(address, out value); }
 
-		public static void LoadAnimationClips(IEnumerable<string> addressList) {
+		public static void LoadAnimationClips(IEnumerable<string> addressList, System.Action<AnimationClip[]> onCompleted = null) {
 			List<string> loadList = CreateLoadingList(addressList, loadingAnimationClip, loadedAnimationClip);
 
 			if(loadList.Count > 0) {
@@ -35,18 +35,34 @@ namespace com.hexengine.gear.addressables {
 						await LoadAsync<AnimationClip>(
 							addressList: loadList,
 							loaded: loadedAnimationClip.Add,
-							completed: () => {
+							completed: list => {
 								foreach (string address in loadList) {
 									loadingAnimationClip.Remove(address);
 								}
+								onCompleted?.Invoke(list);
 							}
 						);
 					}
 				);
 			}
 		}
+		
+		public static async Task LoadAnimationClipsAsync(IEnumerable<string> addressList, System.Action<AnimationClip[]> onCompleted = null) {
+			List<string> loadList = CreateLoadingList(addressList, loadingAnimationClip, loadedAnimationClip);
+			await LoadAsync<AnimationClip>(
+				addressList: loadList,
+				loaded: loadedAnimationClip.Add,
+				completed: list => {
+					foreach (string address in loadList) {
+						loadingAnimationClip.Remove(address);
+					}
+					onCompleted?.Invoke(list);
+				}
+			);
+		}
 
-		public static void LoadModels(IEnumerable<string> addressList) {
+
+		public static void LoadModels(IEnumerable<string> addressList, System.Action<GameObject[]> onCompleted = null) {
 			List<string> loadList = CreateLoadingList(addressList, loadingModel, loadedModel);
 
 			if(loadList.Count > 0) {
@@ -55,15 +71,31 @@ namespace com.hexengine.gear.addressables {
 						await LoadAsync<GameObject>(
 							addressList: loadList,
 							loaded: loadedModel.Add,
-							completed: () => {
+							completed: list => {
 								foreach (string address in loadList) {
 									loadingModel.Remove(address);
 								}
+								onCompleted?.Invoke(list);
 							}
 						);
 					}
 				);
 			}
+		}
+
+		public static async Task LoadModelsAsync(IEnumerable<string> addressList, System.Action<GameObject[]> onCompleted = null) {
+			List<string> loadList = CreateLoadingList(addressList, loadingModel, loadedModel);
+			await LoadAsync<GameObject>(
+				addressList: loadList,
+				loaded: loadedModel.Add,
+				completed: list => {
+					foreach (string address in loadList)
+					{
+						loadingModel.Remove(address);
+					}
+					onCompleted?.Invoke(list);
+				}
+			);
 		}
 
 		private static List<string> CreateLoadingList<T>(in IEnumerable<string> list, List<string> loading, Dictionary<string, T> loaded) where T: Object{
@@ -77,7 +109,11 @@ namespace com.hexengine.gear.addressables {
 			return loadList;
 		}
 
-		private static async Task LoadAsync<T>(IList<string> addressList, System.Action<string, T> loaded, System.Action completed) where T : Object {
+		private static async Task LoadAsync<T>(
+			IList<string> addressList, 
+			System.Action<string, T> loaded, 
+			System.Action<T[]> completed
+		) where T : Object {
 			AsyncOperationHandle<T>[] ops = new AsyncOperationHandle<T>[addressList.Count];
 			for (int i = 0; i < addressList.Count; ++i) {
 				mainContext.Send(
@@ -91,7 +127,21 @@ namespace com.hexengine.gear.addressables {
 				T result = await ops[i].Task;
 				mainContext.Post(_ => loaded(addressList[i], result), null);
 			}
+			mainContext.Post( _ => completed(resultList), null);
+		}
 
+		public static void UnloadModel(string address) {
+			if (IsModelLoaded(address)) {
+				Addressables.Release(loadedModel[address]);
+				loadedModel.Remove(address);
+			}
+		}
+
+		public static void UnloadAnimationClip(string address) {
+			if (IsAnimationClipLoaded(address)) {
+				Addressables.Release(loadedAnimationClip[address]);
+				loadedAnimationClip.Remove(address);
+			}
 		}
 	}
 }
