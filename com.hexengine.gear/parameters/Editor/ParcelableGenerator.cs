@@ -264,7 +264,7 @@ namespace com.hexengine.gear.parameters.editor {
 				} else if(fieldType.IsEnum) {
 					writer.WriteLine($"\t\t\twriter.Write((int){field.Name});");
 					writer.WriteLine($"\t\t\tdataSize += {sizeof(int)};");
-				} else if(typeof(Parcelable).IsAssignableFrom(fieldType)) {
+				} else if(fieldType.GetCustomAttribute<Parcelize>() != null) {
 					writer.WriteLine($"\t\t\t{field.Name}.AppendToBytes(writer, out int dataSizeOf{field.Name}, encoding);");
 					writer.WriteLine($"\t\t\tdataSize += dataSizeOf{field.Name};");
 				}
