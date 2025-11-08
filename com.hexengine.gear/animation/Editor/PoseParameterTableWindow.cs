@@ -268,8 +268,37 @@ namespace com.hexengine.gear.animation.editor {
 			}
 		}
 
+		internal static bool CheckIfValidProfile(SerializedProperty property) {
+			SerializedObject serializedObject = property.serializedObject;
+			SerializedProperty listProperty = serializedObject.FindProperty("_poseList");
+			int currentIndex = -1;
+			for (int i = 0; i < listProperty.arraySize; ++i) {
+				SerializedProperty poseProperty = listProperty.GetArrayElementAtIndex(i);
+				if(poseProperty.propertyPath == property.propertyPath) {
+					currentIndex = i;
+					break;
+				}
+			}
+			Debug.Log(property.propertyPath);
+			
+			if(currentIndex == -1) {
+				return false;
+			}
+
+			PoseParameterTable table = serializedObject.targetObject as PoseParameterTable;
+			if(Validation(table.poseList[currentIndex], out string message)) {
+				return true;
+			} else {
+				EditorUtility.DisplayDialog(
+					Res.String.Animation.validation_export_error,
+					message,
+					Res.String.ok
+				);
+				return false;
+			}
+		}
 		
-		private bool Validation(PoseParameterTable.CharacterPoses poses, out string message) {
+		private static bool Validation(PoseParameterTable.CharacterPoses poses, out string message) {
 			message = "";
 			// プロフィール名が空白
 			if (string.IsNullOrEmpty(poses.name)) {
@@ -583,6 +612,13 @@ namespace com.hexengine.gear.animation.editor {
 					}
 				}
 			}
+		}
+	}
+
+	public static class CustomProfileDrawerExtensions {
+		public static bool CheckIfValidProfile<T>(this T drawer, SerializedProperty property) 
+			where T : PoseParameterTableWindow.ICustomProfileDrawer {
+			return PoseParameterTableWindow.CheckIfValidProfile(property);
 		}
 	}
 }
