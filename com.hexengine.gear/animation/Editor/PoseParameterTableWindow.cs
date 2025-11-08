@@ -254,10 +254,10 @@ namespace com.hexengine.gear.animation.editor {
 				);
 
 				if (!string.IsNullOrEmpty(config.animationScriptAssembly)) {
-					HexengineProject.CreateAssemblyReference(
-						config.animationScriptAssembly,
-						$"{exportPath}{Path.DirectorySeparatorChar}{config.animationScriptAssembly}.asmref"
-					);
+					string path = $"{exportPath}{Path.DirectorySeparatorChar}{config.animationScriptAssembly}.asmref";
+					if(!HexengineProject.Exists(path)) {
+						HexengineProject.CreateAssemblyReference(config.animationScriptAssembly, path);
+					}
 				}
 			} else {
 				EditorUtility.DisplayDialog(
