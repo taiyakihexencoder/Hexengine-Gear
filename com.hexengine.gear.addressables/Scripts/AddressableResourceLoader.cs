@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -28,8 +29,7 @@ namespace com.hexengine.gear.addressables {
 
 		public static void LoadAnimationClips(IEnumerable<string> addressList, System.Action<AnimationClip[]> onCompleted = null) {
 			List<string> loadList = CreateLoadingList(addressList, loadingAnimationClip, loadedAnimationClip);
-
-			if(loadList.Count > 0) {
+			if (loadList.Count > 0) {
 				_ = Task.Run(
 					async () => {
 						await LoadAsync<AnimationClip>(
@@ -116,16 +116,17 @@ namespace com.hexengine.gear.addressables {
 		) where T : Object {
 			AsyncOperationHandle<T>[] ops = new AsyncOperationHandle<T>[addressList.Count];
 			for (int i = 0; i < addressList.Count; ++i) {
+				int index = i;
 				mainContext.Send(
-					_ => ops[i] = Addressables.LoadAssetAsync<T>(addressList[i]),
+					_ => ops[index] = Addressables.LoadAssetAsync<T>(addressList[index]),
 					null
 				);
 			}
 
 			T[] resultList = new T[addressList.Count];
 			for (int i = 0; i < addressList.Count; ++i) {
-				T result = await ops[i].Task;
 				int index = i;
+				T result = await ops[index].Task;
 				mainContext.Post(_ => loaded(addressList[index], result), null);
 			}
 			mainContext.Post( _ => completed(resultList), null);
