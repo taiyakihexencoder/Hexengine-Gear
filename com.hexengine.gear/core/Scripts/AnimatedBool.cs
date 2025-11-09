@@ -18,6 +18,8 @@
 		) {
 			this.easing = easing;
 			this.seconds = seconds;
+			this.min = min;
+			this.max = max;
 			Reset(initial);
 		}
 
@@ -40,7 +42,12 @@
 				if (elapsed > seconds) {
 					elapsed = seconds;
 				}
-				_value = min + (max - min) * easing.Evaluate(elapsed / seconds);
+
+				if (flag) {
+					_value = min + (max - min) * easing.Evaluate(elapsed / seconds);
+				} else {
+					_value = min + (max - min) * easing.Evaluate(1.0f - elapsed / seconds);
+				}
 			}
 		}
 	}
