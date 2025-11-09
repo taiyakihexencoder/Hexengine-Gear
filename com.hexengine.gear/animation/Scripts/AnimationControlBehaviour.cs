@@ -24,11 +24,15 @@ namespace com.hexengine.gear.animation {
 		}
 
 		private void OnDestroy() {
-			graph = null;
+			if (graph != null) {
+				graph.Dispose();
+			}
 		}
 
 		private void OnApplicationQuit() {
-			graph = null;
+			if (graph != null) {
+				graph.Dispose();
+			}
 		}
 	}
 }
