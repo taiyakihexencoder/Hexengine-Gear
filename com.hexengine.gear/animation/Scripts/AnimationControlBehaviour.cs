@@ -13,7 +13,7 @@ namespace com.hexengine.gear.animation {
 
 		public void AssignAnimationControlGraph(AnimationControlGraph graph) {
 			this.graph = graph;
-			graph.SetTarget(animator);
+			graph?.SetTarget(animator);
 		}
 
 		private void Update() {
@@ -24,11 +24,15 @@ namespace com.hexengine.gear.animation {
 		}
 
 		private void OnDestroy() {
-			graph = null;
+			if (graph != null) {
+				graph.Dispose();
+			}
 		}
 
 		private void OnApplicationQuit() {
-			graph = null;
+			if (graph != null) {
+				graph.Dispose();
+			}
 		}
 	}
 }

@@ -121,7 +121,7 @@ namespace com.hexengine.gear.animation.editor {
 			writer.WriteLine();
 
 			// UpdateOverridePose
-			writer.WriteLine($"\t\tprotected override void UpdateOverridePose(Playable playable, ref float weight) {{");
+			writer.WriteLine($"\t\tprotected override void UpdateOverridePose(Playable playable) {{");
 			if (overridePoseParameters.Length > 0) {
 				List<string> overridePoseNameList = new List<string>();
 				foreach (PoseParameterTable.OverridePoseParameter parameter in overridePoseParameters) {

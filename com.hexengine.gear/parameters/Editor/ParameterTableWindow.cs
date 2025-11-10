@@ -218,6 +218,7 @@ namespace com.hexengine.gear.parameters.editor {
 					function: writer => {
 						System.Array records = (System.Array)field.GetValue(scriptable);
 						writer.Write(records.Length);
+
 						if(records.Length > 0) {
 							// 後で設定するので0埋めしておく
 							for(int i = 0; i < records.Length * 2; ++i) { writer.Write(0); }
@@ -236,6 +237,7 @@ namespace com.hexengine.gear.parameters.editor {
 									current++;
 								}
 							}
+							writer.Flush();
 
 							// 0埋め部分をメモリ位置の情報で埋める
 							writer.Seek(sizeof(int), SeekOrigin.Begin);

@@ -254,10 +254,10 @@ namespace com.hexengine.gear.animation.editor {
 				);
 
 				if (!string.IsNullOrEmpty(config.animationScriptAssembly)) {
-					HexengineProject.CreateAssemblyReference(
-						config.animationScriptAssembly,
-						$"{exportPath}{Path.DirectorySeparatorChar}{config.animationScriptAssembly}.asmref"
-					);
+					string path = $"{exportPath}{Path.DirectorySeparatorChar}{config.animationScriptAssembly}.asmref";
+					if(!HexengineProject.Exists(path)) {
+						HexengineProject.CreateAssemblyReference(config.animationScriptAssembly, path);
+					}
 				}
 			} else {
 				EditorUtility.DisplayDialog(
@@ -268,8 +268,36 @@ namespace com.hexengine.gear.animation.editor {
 			}
 		}
 
+		internal static bool CheckIfValidProfile(SerializedProperty property) {
+			SerializedObject serializedObject = property.serializedObject;
+			SerializedProperty listProperty = serializedObject.FindProperty("_poseList");
+			int currentIndex = -1;
+			for (int i = 0; i < listProperty.arraySize; ++i) {
+				SerializedProperty poseProperty = listProperty.GetArrayElementAtIndex(i);
+				if(poseProperty.propertyPath == property.propertyPath) {
+					currentIndex = i;
+					break;
+				}
+			}
+			
+			if(currentIndex == -1) {
+				return false;
+			}
+
+			PoseParameterTable table = serializedObject.targetObject as PoseParameterTable;
+			if(Validation(table.poseList[currentIndex], out string message)) {
+				return true;
+			} else {
+				EditorUtility.DisplayDialog(
+					Res.String.Animation.validation_export_error,
+					message,
+					Res.String.ok
+				);
+				return false;
+			}
+		}
 		
-		private bool Validation(PoseParameterTable.CharacterPoses poses, out string message) {
+		private static bool Validation(PoseParameterTable.CharacterPoses poses, out string message) {
 			message = "";
 			// プロフィール名が空白
 			if (string.IsNullOrEmpty(poses.name)) {
@@ -434,13 +462,15 @@ namespace com.hexengine.gear.animation.editor {
 
 			void ICustomProfileDrawer.DrawPropertyGUI(SerializedProperty property) {
 				SerializedProperty nameProperty = property.FindPropertyRelative("name");
+				SerializedProperty resourceNameProperty = property.FindPropertyRelative("resourceName");
 				SerializedProperty defaultPoseIndexProperty = property.FindPropertyRelative("defaultPoseIndex");
 				SerializedProperty basePoseParametersProperty = property.FindPropertyRelative("basePoseParameters");
 				SerializedProperty overridePoseParametersProperty = property.FindPropertyRelative("overridePoseParameters");
 				SerializedProperty additivePoseParametersProperty = property.FindPropertyRelative("additivePoseParameters");
 
 				nameProperty.stringValue = EditorGUILayout.TextField(new GUIContent(Res.String.Animation.profile), nameProperty.stringValue);
-			
+				resourceNameProperty.stringValue = EditorGUILayout.TextField(new GUIContent(Res.String.Animation.resource_name), resourceNameProperty.stringValue);
+
 				// -- Base Pose -- //
 				using (new EditorGUILayout.HorizontalScope()) {
 					basePoseParametersProperty.isExpanded = EditorGUILayout.Foldout(
@@ -583,6 +613,13 @@ namespace com.hexengine.gear.animation.editor {
 					}
 				}
 			}
+		}
+	}
+
+	public static class CustomProfileDrawerExtensions {
+		public static bool CheckIfValidProfile<T>(this T drawer, SerializedProperty property) 
+			where T : PoseParameterTableWindow.ICustomProfileDrawer {
+			return PoseParameterTableWindow.CheckIfValidProfile(property);
 		}
 	}
 }

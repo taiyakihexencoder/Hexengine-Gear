@@ -16,6 +16,7 @@ namespace com.hexengine.gear.editor {
 			internal static class Animation {
 				private const string PREFIX = "Animation";
 				internal static string profile => L10n.Tr($"{PREFIX}.profile");
+				internal static string resource_name => L10n.Tr($"{PREFIX}.resource_name");
 				internal static string base_pose => L10n.Tr($"{PREFIX}.base_pose");
 				internal static string override_pose => L10n.Tr($"{PREFIX}.override_pose");
 				internal static string additive_pose => L10n.Tr($"{PREFIX}.additive_pose");

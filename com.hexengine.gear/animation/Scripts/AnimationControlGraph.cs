@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
@@ -31,6 +32,8 @@ namespace com.hexengine.gear.animation {
 		private AnimationMixerPlayable basePose;
 		private AnimationMixerPlayable overridePose;
 		private AnimationMixerPlayable additivePose;
+
+		private int lastActiveOverrideIndex = -1;
 
 		public AnimationControlGraph(
 			IAnimationClipSource clipSource,
@@ -82,7 +85,7 @@ namespace com.hexengine.gear.animation {
 			output.SetSourcePlayable(root);
 		}
 
-		~AnimationControlGraph() {
+		public void Dispose() {
 			if (!output.Equals(AnimationPlayableOutput.Null)) {
 				output.SetTarget(null);
 				output.SetSourcePlayable(Playable.Null);
@@ -101,14 +104,17 @@ namespace com.hexengine.gear.animation {
 
 		public void SetTarget(Animator animator) {
 			output.SetTarget(animator);
+			if(animator == null) {
+				graph.Stop();
+			} else {
+				graph.Play();
+			}
 		}
 
 		public void UpdateMotion() {
 			UpdateBasePose(root.GetInput(MIXER_INDEX_BASE_POSE));
 
-			float weight = root.GetInputWeight(MIXER_INDEX_OVERRIDE_POSE);
-			UpdateOverridePose(root.GetInput(MIXER_INDEX_OVERRIDE_POSE), ref weight);
-			root.SetInputWeight(MIXER_INDEX_OVERRIDE_POSE, weight);
+			UpdateOverridePose(root.GetInput(MIXER_INDEX_OVERRIDE_POSE));
 
 			UpdateAdditivePose(root.GetInput(MIXER_INDEX_ADDITIVE_POSE));
 
@@ -166,6 +172,11 @@ namespace com.hexengine.gear.animation {
 				basePose.SetInputWeight(i + 1, parameters[i].weight / weightBase);
 				basePose.GetInput(i + 1).SetSpeed(parameters[i].speed);
 			}
+
+			string[] values = new string[basePose.GetInputCount()];
+			for (int i = 0; i < basePose.GetInputCount(); ++i) {
+				values[i] = $"{basePose.GetInputWeight(i)}";
+			}
 		}
 
 		protected void ApplyOverridePoseParameters(params OverridePoseParameter[] parameters) {
@@ -178,14 +189,15 @@ namespace com.hexengine.gear.animation {
 			if (activeIndex >= 0) {
 				// active=trueがあるなら他を0にする
 				overridePose.GetInput(activeIndex).SetSpeed(parameters[activeIndex].speed);
-				if (overridePose.GetInputWeight(activeIndex) < float.Epsilon) {
+				if (lastActiveOverrideIndex != activeIndex) {
 					RestartClip(overridePose, activeIndex);
 				}
 				for (int i = 0; i < parameters.Length; ++i) {
 					overridePose.SetInputWeight(i, i == activeIndex ? 1f : 0f);
 				}
 				root.SetInputWeight(MIXER_INDEX_OVERRIDE_POSE, 1f);
-			} else {
+			}
+			else {
 				bool existsOverride = false;
 				for (int i = 0; i < parameters.Length; ++i) {
 					if(overridePose.GetInputWeight(i) > float.Epsilon) {
@@ -203,7 +215,7 @@ namespace com.hexengine.gear.animation {
 
 				root.SetInputWeight(MIXER_INDEX_OVERRIDE_POSE, existsOverride ? 1f : 0f);
 			}
-
+			lastActiveOverrideIndex = activeIndex;
 		}
 
 		protected void ApplyAdditivePoseParameters(params AdditivePoseParameter[] parameters) {
@@ -220,7 +232,7 @@ namespace com.hexengine.gear.animation {
 		protected abstract void InitOverridePose(Playable playable);
 		protected abstract void InitAdditivePose(Playable playable);
 		protected abstract void UpdateBasePose(Playable playable);
-		protected abstract void UpdateOverridePose(Playable playable, ref float weight);
+		protected abstract void UpdateOverridePose(Playable playable);
 		protected abstract void UpdateAdditivePose(Playable playable);
 	}
 }

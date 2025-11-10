@@ -49,6 +49,16 @@ namespace com.hexengine.gear.editor {
 			AssetDatabase.ImportAsset($"Assets{Path.DirectorySeparatorChar}{savePath}");
 		}
 
+		/// <summary>
+		/// autoGeneratePath以下に存在するかチェック
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		public static bool Exists(string path) {
+			HexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<HexengineGearConfig>();
+			return File.Exists($"{Application.dataPath}{separator}{config.autoGeneratePath}{separator}{path}");
+		}
+
 		public static void CreateBinaryFile(string path, System.Action<BinaryWriter> function) {
 			HexengineGearConfig config = ScriptableObjectUtility.GetProjectSingleton<HexengineGearConfig>();
 			string savePath = $"{config.autoGeneratePath}{separator}{path}";
