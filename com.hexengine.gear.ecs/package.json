@@ -5,6 +5,7 @@
 	"description": "Hexengine Gear ECS is utility tool for me or a few risk-takers. We are not responsible for any problems that may arise from the use of this package.",
 	"unity": "6.0",
 	"dependencies": {
+	    "com.hexengine.gear": "https://github.com/taiyakihexencoder/Hexengine-Gear.git?path=com.hexengine.gear#0.2.0",
 	    "com.unity.entities": "1.3.14",
 	    "com.unity.entities.graphics": "1.3.2",
 	    "com.unity.physics": "1.3.14"

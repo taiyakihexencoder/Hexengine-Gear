@@ -1,8 +1,10 @@
 {
-    "name": "com.hexengine.gear-editor",
+    "name": "com.hexengine.gear.ecs-editor",
     "rootNamespace": "",
     "references": [
-        "com.hexengine.gear"
+        "com.hexengine.gear.ecs",
+        "com.hexengine.gear",
+        "com.hexengine.gear-editor"
     ],
     "includePlatforms": [
         "Editor"
@@ -11,7 +13,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
