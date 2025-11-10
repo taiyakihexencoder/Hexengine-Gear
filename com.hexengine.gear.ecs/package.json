@@ -1,6 +1,6 @@
 {
 	"name": "com.hexengine.gear.ecs",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"displayName": "Hexengine Gear ECS",
 	"description": "Hexengine Gear ECS is utility tool for me or a few risk-takers. We are not responsible for any problems that may arise from the use of this package.",
 	"unity": "6.0",

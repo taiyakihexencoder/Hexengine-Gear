@@ -8,7 +8,7 @@
 
 1. パッケージマネージャからinstall package from git URL...
 2. `https://github.com/taiyakihexencoder/Hexengine-Gear.git?path=（ライブラリ名）#（version）`を入力  
-   例) `https://github.com/taiyakihexencoder/Hexengine-Gear.git?path=com.hexengine.gear#0.1.0`
+   例) `https://github.com/taiyakihexencoder/Hexengine-Gear.git?path=com.hexengine.gear#0.2.0`
 
 ## 対応言語について
 
