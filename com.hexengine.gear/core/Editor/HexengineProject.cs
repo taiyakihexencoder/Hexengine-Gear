@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditorInternal;
@@ -98,8 +99,8 @@ namespace com.hexengine.gear.editor {
 					throw new System.Exception($"Failed to Get Assembly:{assemblyName}.");
 				}
 			);
-			
 		}
+
 		private static void CreateAssetsFolder(string pathFromAssets) {
 			string path = Application.dataPath;
 			string[] splits = pathFromAssets.Split(new char[] { '/', '\\', ':' });
@@ -119,6 +120,18 @@ namespace com.hexengine.gear.editor {
 			if (created) {
 				Debug.Log($"Create Folder: {path}");
 			}
+		}
+
+		public static EditorWindow OpenInspector(Object targetObject, bool isLocked = true) {
+			System.Type inspectorType = typeof(Editor).Assembly.GetType("UnityEditor.InspectorWindow");
+			PropertyInfo locked = inspectorType.GetProperty("isLocked", BindingFlags.Instance | BindingFlags.Public);
+
+			EditorWindow window = (EditorWindow)ScriptableObject.CreateInstance(inspectorType);
+
+			Selection.activeObject = targetObject;
+			locked.GetSetMethod().Invoke(window, new object[] { isLocked });
+
+			return window;
 		}
 	}
 }
