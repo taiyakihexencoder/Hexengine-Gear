@@ -2,10 +2,8 @@
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
-using Unity.Physics.Systems;
 
 namespace com.hexengine.gear.ecs {
-	[UpdateInGroup(typeof(PhysicsSystemGroup)), UpdateAfter(typeof(AfterPhysicsSystemGroup))]
 	public partial struct ColliderCollisionSystem : ISystem
 	{
 		private EntityQuery stayQuery;

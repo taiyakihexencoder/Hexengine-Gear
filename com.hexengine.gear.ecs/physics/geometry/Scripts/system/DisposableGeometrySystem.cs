@@ -1,6 +1,5 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
-using UnityEngine;
 
 namespace com.hexengine.gear.ecs {
 	public partial struct DisposableGeometrySystem : ISystem {
